@@ -1,5 +1,6 @@
 import SwiftUI
 import Combine
+import AVFoundation
 
 class CountdownTimerViewModel: ObservableObject {
     @Published var remainingTime: Int = 0
@@ -10,7 +11,8 @@ class CountdownTimerViewModel: ObservableObject {
     @Published var second: Int = 0
     
     private var timer: AnyCancellable?
-    private var totalTime: Int = 0  // ใช้สำหรับ Progress Bar
+    private var totalTime: Int = 0
+    private var audioPlayer: AVAudioPlayer?  // ตัวแปรเก็บเครื่องเล่นเสียง
 
     func startTimer() {
         guard !isRunning else { return }
@@ -27,6 +29,7 @@ class CountdownTimerViewModel: ObservableObject {
                     self.remainingTime -= 1
                 } else {
                     self.stopTimer()
+                    self.playAlarmSound() // 🔔 เล่นเสียงเมื่อหมดเวลา
                 }
             }
     }
@@ -52,5 +55,20 @@ class CountdownTimerViewModel: ObservableObject {
         let minutes = (remainingTime % 3600) / 60
         let seconds = remainingTime % 60
         return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+    }
+
+    /// 🔔 เล่นเสียงแจ้งเตือนเมื่อหมดเวลา
+    func playAlarmSound() {
+        guard let soundURL = Bundle.main.url(forResource: "alarm", withExtension: "mp3") else {
+            print("❌ ไม่พบไฟล์เสียง")
+            return
+        }
+
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
+            audioPlayer?.play()
+        } catch {
+            print("❌ เล่นเสียงล้มเหลว: \(error.localizedDescription)")
+        }
     }
 }
