@@ -60,7 +60,7 @@ class CountdownTimerViewModel: ObservableObject {
     /// 🔔 เล่นเสียงแจ้งเตือนเมื่อหมดเวลา
     func playAlarmSound() {
         guard let soundURL = Bundle.main.url(forResource: "alarm", withExtension: "mp3") else {
-            print("❌ ไม่พบไฟล์เสียง")
+            print("ไม่พบไฟล์เสียง")
             return
         }
 
@@ -68,7 +68,7 @@ class CountdownTimerViewModel: ObservableObject {
             audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
             audioPlayer?.play()
         } catch {
-            print("❌ เล่นเสียงล้มเหลว: \(error.localizedDescription)")
+            print("เล่นเสียงล้มเหลว: \(error.localizedDescription)")
         }
     }
 }
