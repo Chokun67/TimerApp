@@ -3,35 +3,21 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         TabView {
+            AlarmView()
+                .tabItem {
+                    Label("Alarm", systemImage: "alarm.fill")
+                }
+            
             CountdownTimerView()
                 .tabItem {
-                    Label("Timer", systemImage: "timer")
+                    Label("Countdown", systemImage: "hourglass")
                 }
 
             TimerView()
                 .tabItem {
-                    Label("Timer", systemImage: "clock.fill")
+                    Label("Timer", systemImage: "timer")
                 }
             
-            SettingsView()
-                .tabItem {
-                    Label("Settings", systemImage: "gearshape.fill")
-                }
-        }
-    }
-}
-
-// View สำหรับตั้งค่า
-struct SettingsView: View {
-    var body: some View {
-        NavigationStack {
-            VStack {
-                Toggle("เปิดเสียงแจ้งเตือน", isOn: .constant(true))
-                    .padding()
-                Toggle("โหมดมืด", isOn: .constant(false))
-                    .padding()
-            }
-            .navigationTitle("Settings")
         }
     }
 }
